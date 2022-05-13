@@ -20,7 +20,7 @@ end
 # but removes duplicated in array D:
 class Tree
   def initialize(user_array)
-    tree_array = prepare_array(user_array)  
+    tree_array = prepare_array(user_array)
     @root = build_tree(tree_array, 0, tree_array.size - 1)
   end
 
@@ -36,8 +36,20 @@ class Tree
     root
   end
 
-  def prepare_array(user_array)
-    user_array.uniq.sort
+  def insert(value)
+    current_node = @root
+    loop do
+      next_node = value > current_node.value ? current_node.right : current_node.left
+      break if next_node.nil?
+
+      current_node = next_node
+    end
+
+    if value > current_node.value
+      current_node.right = Node.new(value)
+    else
+      current_node.left = Node.new(value)
+    end
   end
 
   def to_s
@@ -45,7 +57,13 @@ class Tree
     puts "#{@root.left.value} - #{@root.right.value}"
     puts "#{@root.left.right.value} - #{@root.right.left.value} - #{@root.right.right.value}"
   end
+
+  private
+
+  def prepare_array(user_array)
+    user_array.uniq.sort
+  end
 end
 
-test = Tree.new([1,2,3,4,5,6])
-test.to_s
+test = Tree.new([1, 2, 3, 4, 5, 6])
+test.insert(1)
