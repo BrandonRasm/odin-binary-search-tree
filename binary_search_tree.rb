@@ -21,7 +21,7 @@ end
 class Tree
   def initialize(user_array)
     tree_array = prepare_array(user_array)  
-    @root = build_tree(user_array, 0, arr.size - 1)
+    @root = build_tree(tree_array, 0, arr.size - 1)
   end
 
   def build_tree(arr, first, last)
@@ -37,6 +37,6 @@ class Tree
   end
 
   def prepare_array(user_array)
-    user_array.uniq,sort
+    user_array.uniq.sort
   end
 end
