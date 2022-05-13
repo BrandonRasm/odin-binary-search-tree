@@ -3,7 +3,7 @@
 # class for storing an individual node value
 class Node
   include Comparable
-  attr_accessor :value
+  attr_accessor :value, :left, :right
 
   def <=>(other)
     @value <=> other.value
@@ -16,13 +16,27 @@ class Node
   end
 end
 
-# Pass in an array on initialization. Auto creates and balances a tree on initialize
+# Pass in a array on initialization. Auto creates and balances a tree on initialize
+# but removes duplicated in array D:
 class Tree
-    def initialize(arr)
-        @root = build_tree(arr,0,arr.size - 1)
-    end
+  def initialize(user_array)
+    tree_array = prepare_array(user_array)  
+    @root = build_tree(user_array, 0, arr.size - 1)
+  end
 
-    def build_tree(arr,first,last)
-        
-    end
+  def build_tree(arr, first, last)
+    return if first > last
+
+    mid = (first + last) / 2
+    root = Node.new(arr[mid])
+
+    root.left = build_tree(arr, first, mid - 1)
+    root.right = build_tree(arr, mid + 1, last)
+
+    root
+  end
+
+  def prepare_array(user_array)
+    user_array
+  end
 end
