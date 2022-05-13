@@ -37,6 +37,6 @@ class Tree
   end
 
   def prepare_array(user_array)
-    user_array
+    user_array.uniq,sort
   end
 end
