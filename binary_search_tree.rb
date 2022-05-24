@@ -47,38 +47,44 @@ class Tree
       current_node = next_node
     end
 
-    if value > current_node.value
-      current_node.right = Node.new(value)
-    else
-      current_node.left = Node.new(value)
-    end
+    value > current_node.value ? current_node.right = Node.new(value) : current_node.left = Node.new(value)
   end
 
   def delete(value)
     current_node = @root
     loop do
-        next_node = (value > current_node.value) ? current_node.right : current_node.left
-        return if next_node.nil?
-        break if next_node.value == value
-        current_node = next_node
+      next_node = value > current_node.value ? current_node.right : current_node.left
+      return if next_node.nil?
+      break if next_node.value == value
+
+      current_node = next_node
     end
-    
-    current_node.(true) ? right : left
+
+    current_node.call(true) ? right : left
   end
 
   def to_s
     puts @root.value
-    puts "#{@root.left.value} - #{@root.right.value}"
-    puts "#{@root.left.right.value} - #{@root.right.left.value} - #{@root.right.right.value}"
+    to_s_recursive(@root)
   end
+
+
 
   private
 
   def prepare_array(user_array)
     user_array.uniq.sort
   end
+
+  def to_s_recursive(current_node)
+    puts current_node.left.value unless current_node.left.nil?
+    to_s_recursive(current_node.left) unless current_node.left.nil?
+    puts current_node.right.value unless current_node.right.nil?
+    to_s_recursive(current_node.right) unless current_node.right.nil?
+  end
 end
 
 test = Tree.new([1, 2, 3, 4, 5, 6])
-test.insert(0)
-
+test.to_s
+test.insert(13)
+test.to_s
