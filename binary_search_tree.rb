@@ -39,6 +39,8 @@ class Tree
   def insert(value)
     current_node = @root
     loop do
+      return raise 'Duplicate value' if value == current_node.value
+
       next_node = value > current_node.value ? current_node.right : current_node.left
       break if next_node.nil?
 
@@ -50,6 +52,18 @@ class Tree
     else
       current_node.left = Node.new(value)
     end
+  end
+
+  def delete(value)
+    current_node = @root
+    loop do
+        next_node = (value > current_node.value) ? current_node.right : current_node.left
+        return if next_node.nil?
+        break if next_node.value == value
+        current_node = next_node
+    end
+    
+    current_node.(true) ? right : left
   end
 
   def to_s
@@ -66,4 +80,5 @@ class Tree
 end
 
 test = Tree.new([1, 2, 3, 4, 5, 6])
-test.insert(1)
+test.insert(0)
+
