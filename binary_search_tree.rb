@@ -109,6 +109,15 @@ class Tree
     nil
   end
 
+  def level_order(node = @root,queue = Queue.new,&block)
+    yield node
+    queue << node.left unless node.left.nil?
+    queue << node.right unless node.right.nil?
+    return if queue.empty?
+    level_order(queue.pop,queue,&block)
+    
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -202,5 +211,7 @@ class Tree
 end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
-x = test.find(44)
-puts x.value
+test.insert(2)
+test.level_order do |node|
+  puts node.child_count
+end
