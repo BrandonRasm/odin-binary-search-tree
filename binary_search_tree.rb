@@ -96,7 +96,8 @@ class Tree
 
   private
 
-  def delete_childless_node(delete_node, parent) # returns boolean weather it did anything
+  # returns boolean weather it did anything
+  def delete_childless_node(delete_node, parent)
     if delete_node.child_count.zero?
       parent.right?(delete_node) ? parent.right = nil : parent.left = nil
       return true
@@ -179,9 +180,9 @@ class Tree
   # if child cound == 2 delete function will work normally
   def delete_root_node
     return @root = @root.only_child if @root.child_count == 1
-    return @root = nil if @root.child_count == 0
+    return @root = nil if @root.child_count.zero?
 
-    @root = move_up(@root,nil,true)
+    @root = move_up(@root, nil, true)
   end
 end
 
