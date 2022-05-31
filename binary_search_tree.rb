@@ -94,6 +94,21 @@ class Tree
     to_s_recursive(@root)
   end
 
+  def find(value)
+    return @root if @root == value
+
+    current_node = @root
+    next_node = nil
+    loop do
+      next_node = current_node > value ? current_node.left : current_node.right
+      return next_node if next_node == value
+      break if next_node.nil?
+
+      current_node == next_node
+    end
+    nil
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -187,10 +202,5 @@ class Tree
 end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
-test.to_s
-puts '---------'
-test.insert(2)
-puts test.to_s
-puts '---------'
-test.delete(9)
-test.to_s
+x = test.find(44)
+puts x.value
