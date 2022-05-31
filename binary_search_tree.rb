@@ -109,13 +109,21 @@ class Tree
     nil
   end
 
-  def level_order(node = @root,queue = Queue.new,&block)
+  def level_order(node = @root, queue = Queue.new, &block)
     yield node
     queue << node.left unless node.left.nil?
     queue << node.right unless node.right.nil?
     return if queue.empty?
-    level_order(queue.pop,queue,&block)
-    
+
+    level_order(queue.pop, queue, &block)
+  end
+
+  def preorder(node = @root, arr = [], &block)
+    block = proc { |current_node| arr << current_node.value } unless block_given?
+    preorder(node.left, arr, &block) unless node.left.nil?
+    block.call(node)
+    preorder(node.right, arr, &block) unless node.right.nil?
+    arr
   end
 
   private
@@ -212,6 +220,4 @@ end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
 test.insert(2)
-test.level_order do |node|
-  puts node.child_count
-end
+test.preorder{|x| puts x.value}
