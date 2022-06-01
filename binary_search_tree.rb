@@ -134,6 +134,15 @@ class Tree
     arr
   end
 
+  def postorder(node = @root, arr = [], &block)
+    block = proc { |current_node| arr << current_node.value } unless block_given?
+    
+    postorder(node.left, arr, &block) unless node.left.nil?
+    postorder(node.right, arr, &block) unless node.right.nil?
+    block.call(node)
+    arr
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -228,4 +237,4 @@ end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
 test.insert(2)
-test.inorder{|x| puts x.value}
+test.postorder{|x| puts x.value}
