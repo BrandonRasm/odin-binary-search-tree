@@ -43,6 +43,7 @@ class Tree
   def initialize(user_array)
     tree_array = prepare_array(user_array)
     @root = build_tree(tree_array, 0, tree_array.size - 1)
+    @counter = 0
   end
 
   def build_tree(arr, first, last)
@@ -104,7 +105,7 @@ class Tree
       return next_node if next_node == value
       break if next_node.nil?
 
-      current_node == next_node
+      current_node = next_node
     end
     nil
   end
@@ -136,11 +137,17 @@ class Tree
 
   def postorder(node = @root, arr = [], &block)
     block = proc { |current_node| arr << current_node.value } unless block_given?
-    
+
     postorder(node.left, arr, &block) unless node.left.nil?
     postorder(node.right, arr, &block) unless node.right.nil?
     block.call(node)
     arr
+  end
+
+  def height(node)
+    left_height = !node.left.nil? ? 1 + height(node.left) : 0
+    right_height = !node.right.nil? ? 1 + height(node.right) : 0
+    [left_height, right_height].max
   end
 
   private
@@ -237,4 +244,11 @@ end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
 test.insert(2)
-test.postorder{|x| puts x.value}
+x = test.find(4)
+puts "#{x.value} - #{test.height(x)}"
+x = test.find(1)
+puts "#{x.value} - #{test.height(x)}"
+x = test.find(9)
+puts "#{x.value} - #{test.height(x)}"
+x = test.find(67)
+puts "#{x.value} - #{test.height(x)}"
