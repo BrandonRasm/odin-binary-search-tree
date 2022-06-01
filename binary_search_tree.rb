@@ -150,6 +150,21 @@ class Tree
     [left_height, right_height].max
   end
 
+  def depth(node)
+    return 0 if @root == node
+
+    counter = 0
+    current_node = @root
+    loop do
+      counter += 1
+      next_node = node > current_node ? current_node.right : current_node.left
+      return nil if next_node.nil?
+      return counter if next_node == node
+
+      current_node = next_node
+    end
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -244,11 +259,11 @@ end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
 test.insert(2)
-x = test.find(4)
-puts "#{x.value} - #{test.height(x)}"
+x = test.find(2)
+puts "#{x.value} - #{test.depth(x)}"
 x = test.find(1)
-puts "#{x.value} - #{test.height(x)}"
+puts "#{x.value} - #{test.depth(x)}"
 x = test.find(9)
-puts "#{x.value} - #{test.height(x)}"
+puts "#{x.value} - #{test.depth(x)}"
 x = test.find(67)
-puts "#{x.value} - #{test.height(x)}"
+puts "#{x.value} - #{test.depth(x)}"
