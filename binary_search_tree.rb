@@ -172,6 +172,13 @@ class Tree
     balanced?(node.left) && balanced?(node.right)
   end
 
+  def rebalance
+    return if balanced?
+
+    tree_array = prepare_array(preorder)
+    @root = build_tree(tree_array, 0, tree_array.size - 1)
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -271,6 +278,7 @@ class Tree
 end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
-puts test.balanced?
 test.insert(101)
-puts test.balanced?
+p test.inorder
+test.rebalance
+p test.inorder
