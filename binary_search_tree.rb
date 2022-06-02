@@ -277,8 +277,37 @@ class Tree
   end
 end
 
-test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
+test = Tree.new((Array.new(15) { rand(1..100) }))
+puts 'oh no' unless test.balanced?
+print_nodes = proc { |node| puts node.value }
+
+test.level_order(&print_nodes)
+puts "-----"
+test.preorder(&print_nodes)
+puts "-----"
+test.inorder(&print_nodes)
+puts "-----"
+test.postorder(&print_nodes)
+
+5.times {puts ''}
+
+test.insert(134)
+test.insert(199)
+test.insert(222)
 test.insert(101)
-p test.inorder
+
+puts "oh no" unless test.balanced?
+
 test.rebalance
-p test.inorder
+
+puts "oh no" unless test.balanced?
+
+5.times {puts ''}
+
+test.level_order(&print_nodes)
+puts "-----"
+test.preorder(&print_nodes)
+puts "-----"
+test.inorder(&print_nodes)
+puts "-----"
+test.postorder(&print_nodes)
