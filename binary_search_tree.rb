@@ -165,6 +165,13 @@ class Tree
     end
   end
 
+  def balanced?(node = @root)
+    return true if node.nil?
+    return false unless child_height_delta(node) < 2
+
+    balanced?(node.left) && balanced?(node.right)
+  end
+
   private
 
   # returns boolean weather it did anything
@@ -255,15 +262,15 @@ class Tree
 
     @root = move_up(@root, nil, true)
   end
+
+  def child_height_delta(node)
+    left_height = !node.left.nil? ? height(node.left) : -1
+    right_height = !node.left.nil? ? height(node.right) : -1
+    (left_height - right_height).abs
+  end
 end
 
 test = Tree.new([4, 1, 44, 67, 6, 8, 99, 9, 16])
-test.insert(2)
-x = test.find(2)
-puts "#{x.value} - #{test.depth(x)}"
-x = test.find(1)
-puts "#{x.value} - #{test.depth(x)}"
-x = test.find(9)
-puts "#{x.value} - #{test.depth(x)}"
-x = test.find(67)
-puts "#{x.value} - #{test.depth(x)}"
+puts test.balanced?
+test.insert(101)
+puts test.balanced?
